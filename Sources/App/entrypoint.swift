@@ -1,7 +1,7 @@
-import Vapor
 import Logging
 import NIOCore
 import NIOPosix
+import Vapor
 
 @main
 enum Entrypoint {
@@ -10,7 +10,8 @@ enum Entrypoint {
         try LoggingSystem.bootstrap(from: &env)
         
         let app = try await Application.make(env)
-
+        app.logger.debug("Application starting, main")
+        
         // This attempts to install NIO as the Swift Concurrency global executor.
         // You can enable it if you'd like to reduce the amount of context switching between NIO and Swift Concurrency.
         // Note: this has caused issues with some libraries that use `.wait()` and cleanly shutting down.
@@ -19,7 +20,7 @@ enum Entrypoint {
         // app.logger.debug("Tried to install SwiftNIO's EventLoopGroup as Swift's global concurrency executor", metadata: ["success": .stringConvertible(executorTakeoverSuccess)])
         
         do {
-            try await configure(app)
+            try await configure(app, env: env)
         } catch {
             app.logger.report(error: error)
             try? await app.asyncShutdown()
