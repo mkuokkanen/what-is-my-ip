@@ -9,6 +9,10 @@ Simple web server app written in swift that displays callers ip as seen by the s
 
     swift run App serve --log debug
 
+### Run unit tests
+
+    swift test
+
 ### Dependencies
 
 Show dependency tree
