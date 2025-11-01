@@ -18,7 +18,7 @@ x-shared_environment: &shared_environment
   
 services:
   app:
-    image: hello:latest
+    image: what-is-my-ip:latest
     build:
       context: .
     environment:

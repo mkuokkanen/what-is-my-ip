@@ -15,6 +15,10 @@ Simple web server app written in swift that displays callers ip as seen by the s
 
 ### Dependencies
 
+Update dependencies
+
+    swift package update
+
 Show dependency tree
 
     swift package show-dependencies
