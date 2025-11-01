@@ -2,7 +2,7 @@ import Vapor
 
 // configures your application
 public func configure(_ app: Application, env: Environment) async throws {
-  app.logger.debug("Application starting, configure")
+  app.logger.info("Application starting, configure")
 
   // Clear all default middleware
   app.middleware = .init()
