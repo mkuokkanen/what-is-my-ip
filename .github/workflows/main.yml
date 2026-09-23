@@ -1,13 +1,20 @@
-name: Build and push application docker image
+name: Test, build and push docker image
 
+# Runs unit tests on main, then builds and pushes the docker image.
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+
+# Default GITHUB_TOKEN to read-only access.
+permissions:
+  contents: read
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
   build:
+    needs: test
     runs-on: ubuntu-latest
 
     permissions:
