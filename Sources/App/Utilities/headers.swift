@@ -1,12 +1,18 @@
 import Vapor
 
-/// Fetches client ip from X-Forwarded-For header.
-/// Helper method .forwarded looks nice but it presumes that both Forwarded and X-Forwarded-For
-/// can be trusted and gives Forwarded header priority.
-/// Traefik manages only X-Forwarded-For, so client could fake result by sending Forwarded header
+/// Returns the client IP from the X-Forwarded-For header, or nil if the header is missing.
+///
+/// The app runs only behind Traefik, which by default removes any X-Forwarded-For sent by
+/// the client and sets it to the connecting client's IP, so the value can be trusted.
+///
+/// Vapor's `req.headers.forwarded` is not used: it lists Forwarded header entries before
+/// X-Forwarded-For entries. Traefik manages only X-Forwarded-For and passes the Forwarded
+/// header through unchanged, so a client could fake the result by sending Forwarded.
+///
+/// If the app is run behind a different proxy, this method may need to be updated.
 func ipFromHeaders(_ req: Request) async -> String? {
 
-  // ignore Forwarded header
+  // Traefik passes a client-sent Forwarded header through unchanged; it is not trusted.
   if let forwardedHeader: String = req.headers["Forwarded"].first {
     req.logger.warning("Ignoring untrusted Forwarded header: \(forwardedHeader)")
   }
