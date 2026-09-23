@@ -1,12 +1,24 @@
+# swift
 Packages
 .build
 xcuserdata
 *.xcodeproj
 DerivedData/
-.DS_Store
-db.sqlite
 .swiftpm
+
+# MacOS
+.DS_Store
+
+# SQLite
+db.sqlite
+
+# environment variables
 .env
 .env.*
 ! .env.example
+
+# IDEs
 .vscode
+
+# scratch
+scratch/
