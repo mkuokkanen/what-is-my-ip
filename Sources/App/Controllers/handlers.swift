@@ -1,11 +1,5 @@
 import Vapor
 
-/// Returns 404 Not Found response
-@Sendable
-func returnNotFound(_ req: Request) async throws -> Response {
-  return Response(status: .notFound)
-}
-
 /// Returns the IP address from the request headers
 @Sendable
 func handleIpRequest(_ req: Request) async throws -> Response {

@@ -8,6 +8,7 @@ public func configure(_ app: Application, env: Environment) async throws {
   app.middleware = .init()
   app.middleware.use(RouteLoggingMiddleware(logLevel: .info))
   app.middleware.use(ErrorMiddleware.default(environment: env))
+  app.middleware.use(UnmatchedRouteMiddleware())
 
   // Header logging is for debugging only; enable with LOG_HEADERS=true (logs at debug level)
   if Environment.get("LOG_HEADERS").flatMap(Bool.init) == true {

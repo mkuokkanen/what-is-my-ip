@@ -8,13 +8,13 @@ let package = Package(
   ],
   dependencies: [
     // 💧 A server-side Swift web framework.
-    .package(url: "https://github.com/vapor/vapor.git", from: "4.117.0"),
+    .package(url: "https://github.com/vapor/vapor.git", from: "4.117.0")
   ],
   targets: [
     .executableTarget(
       name: "App",
       dependencies: [
-        .product(name: "Vapor", package: "vapor"),
+        .product(name: "Vapor", package: "vapor")
       ],
       swiftSettings: swiftSettings
     ),
