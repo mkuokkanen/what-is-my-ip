@@ -15,6 +15,21 @@ Then try making request
 
     curl --header "X-Forwarded-For: 1.2.3.4" localhost:8080
 
+To also log all request headers (debug level), set `LOG_HEADERS=true`
+
+    LOG_HEADERS=true swift run App serve --log debug
+
+### Run with Docker Compose
+
+Build the application into a container and run it. Debug and header logging are enabled.
+
+    docker compose build
+    docker compose up
+
+Then try making request
+
+    curl --header "X-Forwarded-For: 1.2.3.4" localhost:8080
+
 ### Run unit tests
 
     swift test
