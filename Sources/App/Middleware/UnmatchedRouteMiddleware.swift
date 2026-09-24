@@ -18,21 +18,14 @@ final class UnmatchedRouteMiddleware: AsyncMiddleware {
   }
 
   private func methodNotAllowed(_ request: Request) -> Response {
-    var headers = HTTPHeaders()
-    headers.add(name: .contentType, value: "text/plain")
-    headers.add(name: .allow, value: "GET, HEAD")
-    return Response(
-      status: .methodNotAllowed, headers: headers,
-      body: .init(string: "Method \(request.method.rawValue) not allowed"))
+    textResponse(
+      .methodNotAllowed, "Method \(request.method.rawValue) not allowed",
+      headers: ["Allow": "GET, HEAD"])
   }
 
   private func notFound(_ request: Request) -> Response {
-    var headers = HTTPHeaders()
-    headers.add(name: .contentType, value: "text/plain")
     // Vapor returns the path percent-encoded; decode it to show it as the client sent it
     let path = request.url.path.removingPercentEncoding ?? request.url.path
-    return Response(
-      status: .notFound, headers: headers,
-      body: .init(string: "Path \(path) not found"))
+    return textResponse(.notFound, "Path \(path) not found")
   }
 }

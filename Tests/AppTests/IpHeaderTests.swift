@@ -112,4 +112,27 @@ struct IpHeaderTests {
         })
     }
   }
+
+  @Test(
+    "All Responses Are Uncached Plain Text",
+    arguments: [
+      (HTTPMethod.GET, "/", HTTPHeaders([("X-Forwarded-For", "127.0.0.1")]), HTTPStatus.ok),
+      (.GET, "/", HTTPHeaders(), .badRequest),
+      (.POST, "/", HTTPHeaders(), .methodNotAllowed),
+      (.GET, "/hello", HTTPHeaders(), .notFound),
+    ])
+  func responseHeaders(
+    method: HTTPMethod, path: String, headers: HTTPHeaders, status: HTTPStatus
+  ) async throws {
+    try await withApp { app in
+      try await app.testing().test(
+        method, path, headers: headers,
+        afterResponse: { res async in
+          #expect(res.status == status)
+          #expect(res.headers.first(name: .contentType) == "text/plain; charset=utf-8")
+          #expect(res.headers.first(name: .cacheControl) == "no-store")
+          #expect(res.headers.first(name: .xContentTypeOptions) == "nosniff")
+        })
+    }
+  }
 }

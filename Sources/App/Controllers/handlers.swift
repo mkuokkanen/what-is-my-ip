@@ -5,20 +5,8 @@ import Vapor
 func handleIpRequest(_ req: Request) async throws -> Response {
   guard let ip = await ipFromHeaders(req) else {
     req.logger.error("No IP in headers")
-    return Response(
-      status: .badRequest,
-      body: "No IP in headers")
+    return textResponse(.badRequest, "No IP in headers")
   }
 
-  return await handleText(ip)
-}
-
-private func handleText(_ ip: String) async -> Response {
-  // header
-  var headers = HTTPHeaders()
-  headers.add(name: .contentType, value: "text/plain")
-
-  // body
-  let response = Response(status: .ok, headers: headers, body: .init(string: ip))
-  return response
+  return textResponse(.ok, ip)
 }
