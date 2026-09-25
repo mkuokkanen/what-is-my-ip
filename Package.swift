@@ -15,24 +15,15 @@ let package = Package(
       name: "App",
       dependencies: [
         .product(name: "Vapor", package: "vapor")
-      ],
-      swiftSettings: swiftSettings
+      ]
     ),
     .testTarget(
       name: "AppTests",
       dependencies: [
         .target(name: "App"),
         .product(name: "VaporTesting", package: "vapor"),
-      ],
-      swiftSettings: swiftSettings
+      ]
     ),
   ],
-  swiftLanguageModes: [.v5]
+  swiftLanguageModes: [.v6]
 )
-
-var swiftSettings: [SwiftSetting] {
-  [
-    .enableUpcomingFeature("DisableOutwardActorInference"),
-    .enableExperimentalFeature("StrictConcurrency"),
-  ]
-}
