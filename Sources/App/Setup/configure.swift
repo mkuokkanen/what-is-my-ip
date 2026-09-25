@@ -1,18 +1,19 @@
 import Vapor
 
-// configures your application
-public func configure(_ app: Application, env: Environment) async throws {
-  app.logger.info("Application starting, configure")
+/// Configures the application: stores the settings, sets up middleware and registers routes.
+func configure(_ app: Application, env: Environment, config: AppConfig) async throws {
+  app.appConfig = config
 
   // Clear all default middleware
   app.middleware = .init()
+
+  // Middleware runs in the order it is listed here
   app.middleware.use(RouteLoggingMiddleware(logLevel: .info))
   app.middleware.use(ErrorMiddleware.default(environment: env))
   app.middleware.use(UnmatchedRouteMiddleware())
 
-  // Header logging is for debugging only; enable with LOG_HEADERS=true (logs at debug level)
-  if Environment.get("LOG_HEADERS").flatMap(Bool.init) == true {
-    app.logger.info("Request header logging enabled")
+  // Header logging is for debugging only (logs at debug level)
+  if app.appConfig.logHeaders {
     app.middleware.use(HeaderLoggerMiddleware())
   }
 

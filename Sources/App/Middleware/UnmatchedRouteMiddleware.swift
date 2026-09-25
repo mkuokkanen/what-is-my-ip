@@ -24,7 +24,7 @@ final class UnmatchedRouteMiddleware: AsyncMiddleware {
   }
 
   private func notFound(_ request: Request) -> Response {
-    // Vapor returns the path percent-encoded; decode it to show it as the client sent it
+    // Vapor returns the path percent-encoded; decode it for a readable message (/a%20b → /a b)
     let path = request.url.path.removingPercentEncoding ?? request.url.path
     return textResponse(.notFound, "Path \(path) not found")
   }

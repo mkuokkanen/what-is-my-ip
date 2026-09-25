@@ -1,5 +1,7 @@
 import Vapor
 
+/// Middleware that logs all request headers at debug level.
+/// For debugging only, not for production use.
 final class HeaderLoggerMiddleware: AsyncMiddleware {
   func respond(to request: Request, chainingTo next: AsyncResponder) async throws -> Response {
     // Log all request headers
